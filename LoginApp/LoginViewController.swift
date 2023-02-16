@@ -12,32 +12,29 @@ final class LoginViewController: UIViewController {
 
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
-    @IBOutlet var loginTupButton: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
+    private let user = "User"
+    private let password = "Password"
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let nameLogInVC = segue.destination as? WelcomeViewController else {return}
-        nameLogInVC.welcomeText = nameTextField.text
+        nameLogInVC.welcomeName = user
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super .touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
     @IBAction func logInButtonPressed() {
-        guard let inputText = nameTextField.text, !inputText.isEmpty else {
+        guard nameTextField.text == user, passwordTextField.text == password else {
             wrongNameOrPasswordAlert(
-                whithTitle: "Invalid login or password",
-                andMessage: "Please, enter correct login or password"
+                whith: "Invalid login or password",
+                and: "Please, enter correct login or password"
             )
             return
         }
-        guard let inputText = passwordTextField.text, !inputText.isEmpty else {
-            wrongNameOrPasswordAlert(
-                whithTitle: "Invalid login or password",
-                andMessage: "Please, enter correct login or password"
-                )
-            return
-                }
     }
     @IBAction func loginHelper() {
     helperWithLoginAndPasswordAlert(
@@ -48,7 +45,7 @@ final class LoginViewController: UIViewController {
     @IBAction func passwordHelper() {
         helperWithLoginAndPasswordAlert(
             whithTitle: "Oops",
-            andMessage: "Your password is Password"
+            andMessage: "Your password is Password" 
         )
     }
 
@@ -59,15 +56,8 @@ final class LoginViewController: UIViewController {
 }
 
 extension LoginViewController {
-    private func wrongNameOrPasswordAlert(
-        whithTitle title: String,
-        andMessage message: String
-    ) {
-        let alert = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: .alert
-        )
+    private func wrongNameOrPasswordAlert(whith title: String, and message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             self.passwordTextField.text = ""
         }
